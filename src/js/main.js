@@ -2,14 +2,14 @@ import { loadHeaderFooter, getLocalStorage } from "./utils.mjs";
 
 function productCardTemplate(product) {
   var img = "./images/" + product.strCategory + ".png";
+  var name = product["strCategory"];
   return `<li class="product-card">
-    <a href="/product_pages/index.html?id=${product.Id}">
+    <a href="/categories/index.html?type=${name}">
     <img
       src="${img}"
-      alt="Image of ${product.strCategory} "
+      alt="Image of ${name} "
     />
-    <h3 class="card__brand">${product.strCategory}</h3>
-    <h2 class="card__name">${product.strCategory}</h2></a>
+    <h2 class="card__name">${name}</h2></a>
   </li>`;
 }
 

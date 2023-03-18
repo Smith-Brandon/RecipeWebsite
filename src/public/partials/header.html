@@ -1,21 +1,85 @@
-<div class="header-top">
-  <div class="logo">
-    <img src="../images/miscellaneous.png" alt="logo" />
-    <a href="../../index.html"><span class="highlight">Cooking Online</span></a>
-  </div>
-  <div class="dropdown">
-    <button class="dropbtn">Dinner</button>
+<head>
+  <script src="./js/header.js" type="module"></script>
+</head>
+<div class="top-bar">
+  <div class="header-top">
+    <div class="logo">
+      <a href="../../index.html">
+        <span class="highlight">
+          <img src="../images/miscellaneous.png" alt="logo" />
+          Cooking Online
+        </span>
+      </a>
+    </div>
+    <div class="dropdown" id="nav-bar-list">
+      <ul>
+        <li>
+          <button
+            onclick="window.location.href='/categories/index.html?type=Beef'"
+            class="dropbtn"
+          >
+            Beef
+          </button>
+        </li>
+        <li>
+          <button
+            onclick="window.location.href='/categories/index.html?type=Chicken'"
+            class="dropbtn"
+          >
+            Chicken
+          </button>
+        </li>
+        <li>
+          <button
+            onclick="window.location.href='/categories/index.html?type=Pork'"
+            class="dropbtn"
+          >
+            Pork
+          </button>
+        </li>
+        <li>
+          <button
+            onclick="window.location.href='/categories/index.html?type=Seafood'"
+            class="dropbtn"
+          >
+            Seafood
+          </button>
+        </li>
+        <!--<li>
+    <button class="dropbtn">Beef</button>
+    <div class="dropdown-content" id="Beef">
+      <a href="#">Link 1</a>
+      <a href="#">Link 2</a>
+      <a href="#">Link 3</a>
+    </div>
+  </li>
+  <li>
+    <button class="dropbtn">Chicken</button>
     <div class="dropdown-content">
       <a href="#">Link 1</a>
       <a href="#">Link 2</a>
       <a href="#">Link 3</a>
     </div>
+  </li>
+  <li>
+    <button class="dropbtn">Pork</button>
+    <div class="dropdown-content">
+      <a href="#">Link 1</a>
+      <a href="#">Link 2</a>
+      <a href="#">Link 3</a>
+    </div>
+  </li>
+  <li>
+    <button class="dropbtn">Seafood</button>
+    <div class="dropdown-content">
+      <a href="#">Link 1</a>
+      <a href="#">Link 2</a>
+      <a href="#">Link 3</a>
+    </div>
+  </li>-->
+      </ul>
+    </div>
   </div>
-  <!-- <div>
-    <input type="text" id="search-box" class="form-control" autocomplete="off" placeholder="Search for a Meal...">
-    <button type="buttpn" id="search-btn" onclick="StartSearch()">Search</button>
-</div> -->
 </div>
-<div class="breadcrumbs"></div>
 
 <script></script>

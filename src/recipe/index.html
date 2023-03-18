@@ -3,18 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
+    <title>Recipe</title>
     <link rel="stylesheet" href="/css/style.css" />
-    <script src="./js/ExternalSources.mjs" type="module"></script>
-    <script src="./js/main.js" type="module"></script>
+    <script src="../js/ExternalSources.mjs" type="module"></script>
+    <script src="../js/recipe.js" type="module"></script>
+    <style>
+      ul > li {
+        display: flex;
+        /* You can also add some margins here to make it look prettier */
+      }
+    </style>
   </head>
   <body>
     <header class="divider" id="main-header"></header>
     <div class="inner-body">
       <div class="h"></div>
-      <div id="food-items">
-        <ul id="list-items"></ul>
-      </div>
+      <div id="recipe-display"></div>
       <div class="container"></div>
     </div>
     <footer id="main-footer"></footer>
