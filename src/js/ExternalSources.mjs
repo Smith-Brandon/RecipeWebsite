@@ -22,6 +22,12 @@ async function GetCategories() {
   //CategoryTemplate(foods, "food-items");
 }
 
+export async function GetACategory(category) {
+  var searchString = "https://www.themealdb.com/api/json/v1/1/filter.php?c=" + category;
+  var data = getData(searchString);
+  return data;
+}
+
 async function Search(param) {
   var searchString =
     "https://www.themealdb.com/api/json/v1/1/search.php?f=" + param;
@@ -65,6 +71,14 @@ function CategoryTemplate(foods, querySelector) {
     foodItemsDiv.appendChild(foodDiv);
   }); */
 }
+
+export async function GetRecipe(param) {
+  var searchString = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + param;
+  var data = await getData(searchString);
+  return data;
+}
+
+
 
 if (localStorage.getItem("categories") === null) {
   GetCategories();

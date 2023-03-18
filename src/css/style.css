@@ -22,6 +22,14 @@ body {
   font-family: var(--font-body);
   font-size: var(--font-base);
   color: var(--dark-grey);
+  width: 70%;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+
+.inner-body {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 img {
@@ -155,7 +163,7 @@ button {
   padding: 0.5em;
 }
 
-.product-list {
+.items-list {
   display: flex;
   flex-flow: row wrap;
   align-content: space-between;
@@ -163,7 +171,12 @@ button {
   padding: 0;
 }
 
-.product-list a {
+ul > li {
+  display: inline-block;
+  /* You can also add some margins here to make it look prettier */
+}
+
+.items-list a {
   text-decoration: none;
   color: var(--dark-grey);
 }
@@ -340,12 +353,17 @@ img.divider {
 .header-top {
   display: flex;
   flex-wrap: wrap;
+  background-color: lightgray;
 }
 
 .header-bottom {
   width: 100%;
 }
-/*End Chuck Mikolyski*/
+
+.top-bar {
+  width: 100%;
+  background-color: lightgray;
+}
 
 @media screen and (min-width: 500px) {
   body {
@@ -584,4 +602,8 @@ fieldset {
 
 .dropdown:hover .dropbtn {
   background-color: #3e8e41;
+}
+
+.dropdown ul > li {
+  display: inline-block;
 }

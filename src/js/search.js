@@ -1,4 +1,4 @@
-import { getItemFromUrl } from "./utils.mjs";
+//import { getItemFromUrl } from "./utils.mjs";
 
 /* async function searchFromAPI()
 {
