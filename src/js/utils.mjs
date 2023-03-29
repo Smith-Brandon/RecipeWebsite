@@ -80,7 +80,7 @@ export async function loadHeaderFooter(){
   renderWithTemplate(footer, footerEle);
 }
 
-export function getCartItemsFromStorage(key) {
+export function getSavedItemsFromStorage(key) {
   let dist = [];
   const cartItems = [getLocalStorage(key)];
   let items = cartItems[0];

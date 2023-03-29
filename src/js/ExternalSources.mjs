@@ -1,4 +1,8 @@
-import { setLocalStorage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+
+if (localStorage.getItem("categories") === null) {
+  GetCategories();
+}
 
 async function getData(path) {
   return fetch(path)
@@ -26,6 +30,14 @@ export async function GetACategory(category) {
   var searchString = "https://www.themealdb.com/api/json/v1/1/filter.php?c=" + category;
   var data = getData(searchString);
   return data;
+}
+
+export async function SaveRecipe(recipe) {
+  var local;
+  if (localStorage.getItem("saved") !== null) {
+    local = getLocalStorage("saved");
+  }
+  setLocalStorage("saved", JSON.stringify(recipe));
 }
 
 async function Search(param) {
