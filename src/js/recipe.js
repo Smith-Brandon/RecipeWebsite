@@ -1,17 +1,69 @@
-import { loadHeaderFooter, getItemFromUrl } from "./utils.mjs";
+import {
+  loadHeaderFooter,
+  getItemFromUrl,
+  getLocalStorage,
+  setLocalStorage,
+} from "./utils.mjs";
 import { GetRecipe } from "./ExternalSources.mjs";
 
 function VerifyIngredient(ingredient, measurement) {
   if (ingredient != "") {
-    return `<li>${ingredient} - ${measurement}</li>`;
+    return `<tr><td>${ingredient} - ${measurement}</td></tr>`;
   }
   return "";
+}
+
+async function addProductToCart(product) {
+  let cartItems;
+  let objArr = new Array();
+  let newCart = new Array();
+  var data;
+
+  // If any items in local storage
+  if (localStorage.getItem("saved") !== null) {
+    cartItems = [getLocalStorage("saved")];
+
+    // Parse current cart items if any and add to objArr
+    if (cartItems[0] != null) {
+      let items = cartItems[0].flat(10);
+      objArr = items.map((x) => JSON.parse(x));
+    }
+
+    // Deal with possible null entry
+    if (objArr[0] == null) {
+      objArr.shift();
+    }
+  }
+
+  // Add old items if any and add new item
+  if (objArr.length > 0) {
+    for (let x in objArr) {
+      newCart.push(JSON.stringify(objArr[x]));
+    }
+    // Get item
+    data = await GetRecipe(product);
+    newCart.push(JSON.stringify(data));
+  }
+  // If no old items set new item as first item
+  else {
+    data = await GetRecipe(product);
+    newCart = [JSON.stringify(data)];
+  }
+
+  // Set item "so-cart" in the local storage
+  setLocalStorage("saved", newCart);
+
+  document.getElementById("save").innerHTML = "Saved";
+  document
+    .getElementById("save")
+    .removeEventListener("click", addToCartHandler);
 }
 
 function productCardTemplate(product) {
   var img = product.strMealThumb;
   var name = product.strMeal;
   var instruction = product.strInstructions;
+  var idMeal = product.idMeal;
   var list = "";
   list += VerifyIngredient(product.strIngredient1, product.strMeasure1);
   list += VerifyIngredient(product.strIngredient2, product.strMeasure2);
@@ -39,13 +91,14 @@ function productCardTemplate(product) {
     <h3>Recipe Area: ${product.strArea}</h3>
 
     <div id=productimagediv>
-        <img class="divider" id=productimage src="${img}" alt="${name}" /><ul style="float: right; margin-right: 200px; list-style-type: square;"><li>Ingredients</li>${list}</ul>
+        <img class="divider" id=productimage src="${img}" alt="${name}" /><table style="float: clear; float: right; margin-right: 200px; list-style-type: square; max-width: 300px;"><tr><td><h3>Ingredients</h3></td></tr>${list}</table>
     </div>
 
             <h3>Instructions</h3>
             <p class="product__description">
               ${instruction}
             </p>
+            <button id="save" data-id="${idMeal}">Save Me</button>
     `;
   return htmlItem;
 }
@@ -60,6 +113,7 @@ function BuildPage(data) {
   document
     .getElementById("recipe-display")
     .insertAdjacentHTML("afterbegin", displayItems.join(""));
+  document.getElementById("save").addEventListener("click", addToCartHandler);
 }
 
 async function Load() {
@@ -70,3 +124,10 @@ async function Load() {
 }
 
 Load();
+
+// add to cart button event handler
+async function addToCartHandler(e) {
+  var id = e.target.dataset.id;
+  await addProductToCart(id);
+  //alertMessage("Item added to cart!", false);
+}
