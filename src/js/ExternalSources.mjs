@@ -1,8 +1,5 @@
 import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 
-if (localStorage.getItem("categories") === null) {
-  GetCategories();
-}
 
 async function getData(path) {
   return fetch(path)
@@ -19,11 +16,15 @@ async function convertToJson(res) {
   }
 }
 
-async function GetCategories() {
+export async function GetCategories() {
   var searchString = "https://www.themealdb.com/api/json/v1/1/categories.php";
   var foods = await getData(searchString);
   setLocalStorage("categories", JSON.stringify(foods));
   //CategoryTemplate(foods, "food-items");
+}
+
+if (localStorage.getItem("categories") === null) {
+  GetCategories();
 }
 
 export async function GetACategory(category) {
@@ -69,19 +70,6 @@ function CategoryTemplate(foods, querySelector) {
   console.log(foods);
   // Get display element
   const foodItemsDiv = document.getElementById(querySelector);
-  // Build grid
-  /*   foods.meals.forEach(meal => {
-    const foodDiv = document.createElement('div');
-    const imgSrc = 
-
-    foodDiv.className = 'meal';
-    const foodInfo = `
-  <img src="${meal.strCategoryThumb}" class="categoryThumb" />
-  <h3>${meal.strCategory}</h3>
-  `;
-    foodDiv.innerHTML = foodInfo;
-    foodItemsDiv.appendChild(foodDiv);
-  }); */
 }
 
 export async function GetRecipe(param) {
@@ -90,8 +78,10 @@ export async function GetRecipe(param) {
   return data;
 }
 
-
-
-if (localStorage.getItem("categories") === null) {
-  GetCategories();
+function CheckCategories(){
+  if (localStorage.getItem("categories") === null) {
+    GetCategories();
+  }
 }
+
+CheckCategories();

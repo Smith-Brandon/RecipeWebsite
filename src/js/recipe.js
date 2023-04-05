@@ -6,11 +6,20 @@ import {
 } from "./utils.mjs";
 import { GetRecipe } from "./ExternalSources.mjs";
 
+function CapitalizeFirst(word) {
+  const firstLetter = word.charAt(0);
+  const firstLetterCap = firstLetter.toUpperCase();
+  const remainingLetters = word.slice(1);
+  const capitalizedWord = firstLetterCap + remainingLetters;
+  return capitalizedWord;
+}
+
 function VerifyIngredient(ingredient, measurement) {
   if (ingredient != "") {
-    return `<tr><td>${ingredient} - ${measurement}</td></tr>`;
+    var ing = CapitalizeFirst(ingredient);
+    return `<tr><td>${ing} - ${measurement}</td></tr>`;
   }
-  return "";
+  return ``;
 }
 
 async function addProductToCart(product) {
@@ -53,13 +62,43 @@ async function addProductToCart(product) {
   // Set item "so-cart" in the local storage
   setLocalStorage("saved", newCart);
 
-  document.getElementById("save").innerHTML = "Saved";
+  document.getElementById("save").innerHTML = "Saved to List";
   document
     .getElementById("save")
     .removeEventListener("click", addToCartHandler);
 }
 
+function CheckIfAlreadySaved(id) {
+  let cartItems;
+  let objArr = new Array();
+  var isFound = false;
+  // If any items in local storage
+  if (localStorage.getItem("saved") !== null) {
+    cartItems = [getLocalStorage("saved")];
+
+    // Parse current cart items if any and add to objArr
+    if (cartItems[0] != null) {
+      let items = cartItems[0].flat(10);
+      objArr = items.map((x) => JSON.parse(x));
+    }
+
+    // Deal with possible null entry
+    if (objArr[0] == null) {
+      objArr.shift();
+    }
+
+    for (var item in cartItems[0]) {
+      if (cartItems[0][item].includes(id)) {
+        isFound = true;
+      }
+    }
+  }
+  return isFound;
+}
+
 function productCardTemplate(product) {
+  var MealSaved = CheckIfAlreadySaved(product.idMeal);
+
   var img = product.strMealThumb;
   var name = product.strMeal;
   var instruction = product.strInstructions;
@@ -86,9 +125,11 @@ function productCardTemplate(product) {
   list += VerifyIngredient(product.strIngredient19, product.strMeasure19);
   list += VerifyIngredient(product.strIngredient20, product.strMeasure20);
 
-  const htmlItem = `
+  list = list.replaceAll("null - null", "");
+
+  var htmlItem = `
     <h2 class="divider">${name}</h2>
-    <h3>Recipe Area: ${product.strArea}</h3>
+    <h3>${product.strArea} Recipe</h3>
 
     <div id=productimagediv>
         <img class="divider" id=productimage src="${img}" alt="${name}" /><table style="float: clear; float: right; margin-right: 200px; list-style-type: square; max-width: 300px;"><tr><td><h3>Ingredients</h3></td></tr>${list}</table>
@@ -97,19 +138,21 @@ function productCardTemplate(product) {
             <h3>Instructions</h3>
             <p class="product__description">
               ${instruction}
-            </p>
-            <button id="save" data-id="${idMeal}">Save Me</button>
-    `;
+            </p>`;
+  if (MealSaved) {
+    htmlItem =
+      htmlItem +
+      `<button id="save" onclick="window.location.href='/saved/index.html'">Saved to List</button>`;
+  } else {
+    htmlItem =
+      htmlItem + `<button id="save" data-id="${idMeal}">Save Me</button>`;
+  }
   return htmlItem;
 }
 
 function BuildPage(data) {
-  //const displayItems = [];
-  //for (var item in data) {
-  //  displayItems.Push(productCardTemplate(item));
-  //}
   const displayItems = data.map((x) => productCardTemplate(x));
-  //var displayItems = renderListWithTemplate(productCardTemplate, categories);
+
   document
     .getElementById("recipe-display")
     .insertAdjacentHTML("afterbegin", displayItems.join(""));
