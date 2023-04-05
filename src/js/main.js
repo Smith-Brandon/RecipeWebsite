@@ -1,4 +1,5 @@
 import { loadHeaderFooter, getLocalStorage } from "./utils.mjs";
+import { GetCategories } from "./ExternalSources.mjs";
 
 function productCardTemplate(product) {
   var img = "./images/" + product.strCategory + ".png";
@@ -21,22 +22,13 @@ function BuildPage(categories) {
     .insertAdjacentHTML("afterbegin", displayItems.join(""));
 }
 
-function Load() {
+async function Load() {
   loadHeaderFooter();
+  await GetCategories();
   var rawdata = getLocalStorage("categories");
   var data = [JSON.parse(rawdata)];
   var categories = data[0].categories;
   BuildPage(categories);
 }
 
-/* function StartSearch(){
-    var x = 0;
-} */
-
 Load();
-/* document.getElementById("#search-btn").addEventListener("click", (e) => {
-    e.preventDefault();
-    var searchText = document.getElementById("#search-box").value;
-    var query = "../search/index.html?Q=" + searchText;
-    window.location.href = query;
-  }); */
